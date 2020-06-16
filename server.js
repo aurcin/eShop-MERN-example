@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
+const userRoutes = require('./routes/user');
 
 const PORT = process.env.PORT || 5000;
 const ENV = process.env.NODE_ENV;
@@ -15,11 +16,10 @@ if (ENV === 'development') {
 	app.use(morgan('dev'));
 }
 
-app.get('/', (req, res) => {
-	res.status(200).send('Hi from node');
-});
-
 app.use(errorHandler);
+
+// routes
+app.use('/api/v1/users', userRoutes);
 
 const server = app.listen(
 	PORT,
