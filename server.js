@@ -1,10 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
-const userRoutes = require('./routes/user');
+const authRoutes = require('./routes/auth');
 
 const PORT = process.env.PORT || 5000;
 const ENV = process.env.NODE_ENV;
@@ -16,10 +17,16 @@ if (ENV === 'development') {
 	app.use(morgan('dev'));
 }
 
-app.use(errorHandler);
+// body parser
+app.use(express.json());
+
+// cookie parser
+app.use(cookieParser());
 
 // routes
-app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/auth', authRoutes);
+
+app.use(errorHandler);
 
 const server = app.listen(
 	PORT,
