@@ -1,4 +1,4 @@
-const mongoose = require('momgoose');
+const mongoose = require('mongoose');
 //const crypto = require('crypto');
 //const uuidv1 = require('uuid/v1');
 
@@ -37,6 +37,7 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			trim: true,
 		},
+
 		salt: String,
 
 		history: {
