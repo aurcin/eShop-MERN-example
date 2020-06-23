@@ -6,6 +6,7 @@ require('dotenv').config();
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
 
 const PORT = process.env.PORT || 5000;
 const ENV = process.env.NODE_ENV;
@@ -25,6 +26,7 @@ app.use(cookieParser());
 
 // routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/auth/users', userRoutes);
 
 app.use(errorHandler);
 
