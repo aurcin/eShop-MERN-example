@@ -2,6 +2,8 @@ const formidable = require('formidable');
 const fs = require('fs');
 
 const Product = require('../models/Product');
+const asyncHandler = require('../middleware/async');
+const ErrorResponse = require('../utils/errorResponse');
 
 // @desc    Create product
 // @route   POST /api/v1/products
@@ -46,26 +48,34 @@ exports.create = async (req, res) => {
 	});
 };
 
-// @desc    Get a single product product
-// @route   GET /api/v1/products/:productId
+// @desc    Get single product
+// @route   GET /api/v1/products/:id
 // @access  Public
-exports.getProduct = (req, res) => {
-	req.product.photo = undefined;
-	return res.status(200).json({
-		success: true,
-		data: req.product,
-	});
-};
+exports.getProduct = asyncHandler(async (req, res, next) => {
+	const product = await Product.findById(req.params.id);
 
-exports.productById = (req, res, next, id) => {
-	Product.findById(id).exec((error, product) => {
-		if (error || !product) {
-			return res.status(400).json({
-				success: false,
-				error: 'Product not found',
-			});
-		}
-		req.product = product;
-		next();
+	if (!product) {
+		return next(
+			new ErrorResponse(`Product not found with id of ${req.params.id}`, 404),
+		);
+	}
+
+	product.photo = undefined;
+
+	res.status(200).json({
+		success: true,
+		data: product,
 	});
-};
+});
+
+// @desc    Delete product
+// @route   DELETE /api/v1/products/:id
+// @access  Private/Admin
+exports.deleteProduct = asyncHandler(async (req, res, next) => {
+	await Product.findByIdAndDelete(req.params.id);
+
+	res.status(200).json({
+		success: true,
+		data: {},
+	});
+});
