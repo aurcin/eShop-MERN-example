@@ -33,7 +33,7 @@ exports.create = async (req, res) => {
 		try {
 			await product.save();
 
-			res.status(200).json({
+			res.status(201).json({
 				success: true,
 				data: product,
 			});
@@ -43,5 +43,29 @@ exports.create = async (req, res) => {
 				error: 'Invalid data entered',
 			});
 		}
+	});
+};
+
+// @desc    Get a single product product
+// @route   GET /api/v1/products/:productId
+// @access  Public
+exports.getProduct = (req, res) => {
+	req.product.photo = undefined;
+	return res.status(200).json({
+		success: true,
+		data: req.product,
+	});
+};
+
+exports.productById = (req, res, next, id) => {
+	Product.findById(id).exec((error, product) => {
+		if (error || !product) {
+			return res.status(400).json({
+				success: false,
+				error: 'Product not found',
+			});
+		}
+		req.product = product;
+		next();
 	});
 };
