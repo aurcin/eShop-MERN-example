@@ -7,7 +7,6 @@ const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
-const categoryRoutes = require('./routes/categories');
 const productRoutes = require('./routes/products');
 
 const PORT = process.env.PORT || 5000;
@@ -29,7 +28,6 @@ app.use(cookieParser());
 // routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/auth/users', userRoutes);
-app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/products', productRoutes);
 
 app.use(errorHandler);

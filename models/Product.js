@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 
-const { ObjectId } = mongoose.Schema;
-
 const ProductSchema = new mongoose.Schema(
 	{
+		category: {
+			type: String,
+			enum: ['books', 'jaurnals', 'audiobooks', 'other'],
+			default: 'other',
+		},
 		name: {
 			type: String,
 			trim: true,
@@ -20,11 +23,6 @@ const ProductSchema = new mongoose.Schema(
 			trim: true,
 			required: [true, 'Please add a product price'],
 			maxlength: [32, 'Product price cannot extend 32 symbols'],
-		},
-		category: {
-			type: ObjectId,
-			ref: 'Category',
-			required: true,
 		},
 		quantity: {
 			type: Number,
