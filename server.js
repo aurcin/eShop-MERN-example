@@ -1,6 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
+const path = require('path');
+const cors = require('cors');
 require('dotenv').config();
 
 const connectDB = require('./config/db');
@@ -24,6 +27,14 @@ app.use(express.json());
 
 // cookie parser
 app.use(cookieParser());
+
+app.use(fileUpload());
+
+// enabling cors
+app.use(cors());
+
+// set static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
 app.use('/api/v1/auth', authRoutes);

@@ -6,6 +6,7 @@ const {
 	getProduct,
 	updateProduct,
 	deleteProduct,
+	productPhotoUpload,
 } = require('../controllers/products');
 const { protect, authorize } = require('../middleware/auth');
 const advancedResults = require('../middleware/advancedResults');
@@ -22,5 +23,7 @@ router
 	.get(getProduct)
 	.put(updateProduct)
 	.delete(protect, authorize('admin'), deleteProduct);
+
+router.route('/:id/photo').put(protect, authorize('admin'), productPhotoUpload);
 
 module.exports = router;
