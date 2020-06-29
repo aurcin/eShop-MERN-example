@@ -5,6 +5,33 @@ const Product = require('../models/Product');
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
 
+// @desc    Get single product
+// @route   GET /api/v1/products/:id
+// @access  Public
+exports.getProduct = asyncHandler(async (req, res, next) => {
+	const product = await Product.findById(req.params.id);
+
+	if (!product) {
+		return next(
+			new ErrorResponse(`Product not found with id of ${req.params.id}`, 404),
+		);
+	}
+
+	product.photo = undefined;
+
+	res.status(200).json({
+		success: true,
+		data: product,
+	});
+});
+
+// @desc    Get all products
+// @route   GET /api/v1/products/
+// @access  Public
+exports.getProducts = asyncHandler(async (req, res, next) => {
+	res.status(200).json(res.advancedResults);
+});
+
 // @desc    Create product
 // @route   POST /api/v1/products
 // @access  Private/Admin
@@ -35,6 +62,8 @@ exports.createProduct = async (req, res) => {
 		try {
 			await product.save();
 
+			product.photo = undefined;
+
 			res.status(201).json({
 				success: true,
 				data: product,
@@ -48,26 +77,6 @@ exports.createProduct = async (req, res) => {
 		}
 	});
 };
-
-// @desc    Get single product
-// @route   GET /api/v1/products/:id
-// @access  Public
-exports.getProduct = asyncHandler(async (req, res, next) => {
-	const product = await Product.findById(req.params.id);
-
-	if (!product) {
-		return next(
-			new ErrorResponse(`Product not found with id of ${req.params.id}`, 404),
-		);
-	}
-
-	product.photo = undefined;
-
-	res.status(200).json({
-		success: true,
-		data: product,
-	});
-});
 
 // @desc    Update product
 // @route   PUT /api/v1/products/:id

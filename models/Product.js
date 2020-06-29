@@ -37,6 +37,11 @@ const ProductSchema = new mongoose.Schema(
 			type: Boolean,
 			required: false,
 		},
+		sold: {
+			type: Number,
+			min: [0, 'Sold count cannot be negative'],
+			default: 0,
+		},
 	},
 	{ timestamps: true },
 );
