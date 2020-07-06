@@ -1,7 +1,13 @@
 import React from 'react';
 
+import Routes from './components/routes/Routes';
+
 function App() {
-	return <div>E-SHOP</div>;
+	return (
+		<div>
+			<Routes />
+		</div>
+	);
 }
 
 export default App;
