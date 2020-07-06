@@ -1,7 +1,13 @@
 import React from 'react';
 
+import Menu from './menu';
+
 const header = () => {
-	return <div>Header</div>;
+	return (
+		<div>
+			<Menu />
+		</div>
+	);
 };
 
 export default header;
