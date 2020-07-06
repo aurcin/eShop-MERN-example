@@ -1,11 +1,15 @@
 import React from 'react';
 
-import Routes from './components/routes/Routes';
+import Header from './components/header';
+import Main from './components/main';
+import Footer from './components/footer';
 
 function App() {
 	return (
 		<div>
-			<Routes />
+			<Header />
+			<Main />
+			<Footer />
 		</div>
 	);
 }
