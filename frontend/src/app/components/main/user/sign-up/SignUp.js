@@ -1,42 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import { API } from '../../../../../config/config';
+import AuthContext from '../../../../../context/auth/AuthContext';
 
 const SignUp = () => {
 	const [formFields, setFormFields] = useState({
 		name: '',
 		email: '',
 		password: '',
-		success: true,
-		error: null,
 	});
 
-	const { name, email, password, success, error } = formFields;
+	const authContext = useContext(AuthContext);
+
+	const { name, email, password } = formFields;
+	const { register } = authContext;
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		signUp({ name, email, password }).then((data) => {
-			if (!data.success) {
-				setFormFields({
-					...formFields,
-					error: data.error || 'Error',
-					success: false,
-				});
-			} else {
-				setFormFields({
-					name: '',
-					email: '',
-					password: '',
-					success: true,
-					error: null,
-				});
-			}
-		});
+		register(formFields);
 	};
 
 	const onChange = (field) => (e) => {
@@ -46,37 +31,8 @@ const SignUp = () => {
 		});
 	};
 
-	const signUp = (user) => {
-		return fetch(`${API}/auth/register`, {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-type': 'application/json',
-			},
-			body: JSON.stringify(user),
-		})
-			.then((response) => {
-				return response.json();
-			})
-			.catch((error) => {
-				console.log(error);
-				return error.json();
-			});
-	};
-
-	const showError = () => {
-		return <div>Error</div>;
-	};
-
-	const showSuccess = () => {
-		return <div>success</div>;
-	};
-
 	return (
 		<>
-			{error !== null ? showError() : null}
-			{success ? showSuccess() : null}
-
 			<Row>
 				<Col md={{ span: 8, offset: 2 }}>
 					<Form onSubmit={onSubmit}>

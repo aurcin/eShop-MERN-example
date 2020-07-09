@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import alertContext from './AlertContext';
 import alertReducer from './AlertRedcuer';
@@ -6,34 +7,32 @@ import alertReducer from './AlertRedcuer';
 import { SET_ALERT, CLEAR_ALERT } from '../types';
 
 const Alertstate = ({ children }) => {
-	const initialState = {
-		message: null,
-		status: null,
-	};
+	const initialState = [];
 
 	const [state, dispatch] = useReducer(alertReducer, initialState);
 
-	const setAlert = (message, code) => {
+	const setAlert = (message, status, clearTimeoutDuration = 5000) => {
+		const id = uuidv4();
 		dispatch({
 			type: SET_ALERT,
-			payload: { message, code },
+			payload: { message, status, id },
 		});
 		setTimeout(() => {
-			clearAlert();
-		}, 5000);
+			clearAlert(id);
+		}, clearTimeoutDuration);
 	};
 
-	const clearAlert = () => {
+	const clearAlert = (id) => {
 		dispatch({
 			type: CLEAR_ALERT,
+			payload: id,
 		});
 	};
 
 	return (
 		<alertContext.Provider
 			value={{
-				message: state.message,
-				status: state.status,
+				alerts: state,
 				setAlert,
 				clearAlert,
 			}}

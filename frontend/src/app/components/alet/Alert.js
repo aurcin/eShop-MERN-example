@@ -1,29 +1,34 @@
 import React, { useContext } from 'react';
 
-import Alert from 'react-bootstrap/Alert';
 import Container from 'react-bootstrap/Container';
 
 import AlertContext from '../../../context/alert/AlertContext';
+import AlertItem from './AlertItem';
 
 const AlertWindow = () => {
 	const alertContext = useContext(AlertContext);
-	const { message, status, clearAlert } = alertContext;
+	const { alerts, clearAlert } = alertContext;
 
-	const getStatus = () => {
+	const getStatus = (status) => {
 		return status === 1 ? 'danger' : 'info';
 	};
 
-	if (!message) {
+	if (!alerts || alerts.length === 0) {
 		return <></>;
 	}
 
-	return (
-		<Container>
-			<Alert variant={getStatus()} dismissible onClose={clearAlert}>
-				{message}
-			</Alert>
-		</Container>
-	);
+	const AlertList = alerts.map(({ id, status, message }) => {
+		return (
+			<AlertItem
+				key={id}
+				variant={getStatus(status)}
+				message={message}
+				onClose={() => clearAlert(id)}
+			/>
+		);
+	});
+
+	return <Container>{AlertList}</Container>;
 };
 
 export default AlertWindow;
