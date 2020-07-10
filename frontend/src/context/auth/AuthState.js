@@ -1,7 +1,14 @@
 import React, { useReducer, useContext } from 'react';
 import axios from 'axios';
 
-import { REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS } from '../types';
+import {
+	REGISTER_USER_FAILURE,
+	REGISTER_USER_SUCCESS,
+	LOGIN_USER_SUCCESS,
+	LOGIN_USER_FAILURE,
+	FETCH_USER_PROFILE_SUCCESS,
+	FETCH_USER_PROFILE_FAILURE,
+} from '../types';
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
 import AlertContext from '../alert/AlertContext';
@@ -40,7 +47,66 @@ const AuthState = ({ children }) => {
 			dispatch({
 				type: REGISTER_USER_FAILURE,
 			});
-			setAlert(error.response.data.error, 1);
+
+			if (error.response !== undefined) {
+				setAlert(error.response.data.error, 1);
+			} else {
+				setAlert('Failed to connect to server', 1);
+			}
+		}
+	};
+
+	const login = async (formData) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+
+		try {
+			const response = await axios.post(`${API}/auth/login`, formData, config);
+			dispatch({
+				type: LOGIN_USER_SUCCESS,
+				payload: response.data,
+			});
+			setAlert('Welcome to our shop', 0);
+		} catch (error) {
+			dispatch({
+				type: LOGIN_USER_FAILURE,
+			});
+
+			if (error.response !== undefined) {
+				setAlert(error.response.data.error, 1);
+			} else {
+				setAlert('Failed to connect to server', 1);
+			}
+		}
+	};
+
+	const getProfileData = async () => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+
+		try {
+			const response = await axios.get(`${API}/auth/`, config);
+			dispatch({
+				type: FETCH_USER_PROFILE_SUCCESS,
+				payload: response.data,
+			});
+			setAlert('Profile information fetched successfully', 0);
+		} catch (error) {
+			dispatch({
+				type: FETCH_USER_PROFILE_FAILURE,
+			});
+
+			if (error.response !== undefined) {
+				setAlert(error.response.data.error, 1);
+			} else {
+				setAlert('Failed to connect to server', 1);
+			}
 		}
 	};
 
@@ -49,6 +115,8 @@ const AuthState = ({ children }) => {
 			value={{
 				data: state.data,
 				register,
+				login,
+				getProfileData,
 			}}
 		>
 			{children}

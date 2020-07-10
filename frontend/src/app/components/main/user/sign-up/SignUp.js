@@ -32,56 +32,54 @@ const SignUp = () => {
 	};
 
 	return (
-		<>
-			<Row>
-				<Col md={{ span: 8, offset: 2 }}>
-					<Form onSubmit={onSubmit}>
-						<Form.Group controlId='formName'>
-							<Form.Label>Name</Form.Label>
-							<Form.Control
-								type='text'
-								placeholder='John'
-								onChange={onChange('name')}
-								value={name}
-								required
-								pattern='.{1,32}'
-								title='Name cannot extend 32 symbols'
-							/>
-						</Form.Group>
+		<Row>
+			<Col md={{ span: 8, offset: 2 }}>
+				<Form onSubmit={onSubmit}>
+					<Form.Group controlId='formName'>
+						<Form.Label>Name</Form.Label>
+						<Form.Control
+							type='text'
+							placeholder='John'
+							onChange={onChange('name')}
+							value={name}
+							required
+							pattern='.{1,32}'
+							title='Name cannot extend 32 symbols'
+						/>
+					</Form.Group>
 
-						<Form.Group controlId='formEmail'>
-							<Form.Label>Email</Form.Label>
-							<Form.Control
-								type='email'
-								placeholder='email@mail.com'
-								onChange={onChange('email')}
-								value={email}
-								required
-							/>
-						</Form.Group>
+					<Form.Group controlId='formEmail'>
+						<Form.Label>Email</Form.Label>
+						<Form.Control
+							type='email'
+							placeholder='email@mail.com'
+							onChange={onChange('email')}
+							value={email}
+							required
+						/>
+					</Form.Group>
 
-						<Form.Group controlId='formPassword'>
-							<Form.Label>Password</Form.Label>
-							<Form.Control
-								type='password'
-								onChange={onChange('password')}
-								value={password}
-								required
-								pattern='.{6,}'
-								title='Password must be at least 6 characters long'
-							/>
-							<Form.Text className='text-muted'>
-								Must be at least 6 characters long.
-							</Form.Text>
-						</Form.Group>
+					<Form.Group controlId='formPassword'>
+						<Form.Label>Password</Form.Label>
+						<Form.Control
+							type='password'
+							onChange={onChange('password')}
+							value={password}
+							required
+							pattern='.{6,}'
+							title='Password must be at least 6 characters long'
+						/>
+						<Form.Text className='text-muted'>
+							Must be at least 6 characters long.
+						</Form.Text>
+					</Form.Group>
 
-						<Button variant='primary' type='submit'>
-							Submit
-						</Button>
-					</Form>
-				</Col>
-			</Row>
-		</>
+					<Button variant='primary' type='submit'>
+						Submit
+					</Button>
+				</Form>
+			</Col>
+		</Row>
 	);
 };
 
