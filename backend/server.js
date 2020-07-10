@@ -1,6 +1,5 @@
 const express = require('express');
 const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const cors = require('cors');
@@ -24,9 +23,6 @@ if (ENV === 'development') {
 
 // body parser
 app.use(express.json());
-
-// cookie parser
-app.use(cookieParser());
 
 app.use(fileUpload());
 

@@ -3,32 +3,26 @@ import {
 	REGISTER_USER_SUCCESS,
 	LOGIN_USER_FAILURE,
 	LOGIN_USER_SUCCESS,
-	FETCH_USER_PROFILE_SUCCESS,
-	FETCH_USER_PROFILE_FAILURE,
+	LOAD_USER_SUCCESS,
+	LOGOUT_USER,
 } from '../types';
 
 export default (state, action) => {
 	switch (action.type) {
-		case REGISTER_USER_SUCCESS:
-			return {
-				...state,
-				data: action.payload,
-			};
 		case LOGIN_USER_SUCCESS:
+			localStorage.setItem('token', action.payload.token);
 			return {
 				...state,
-				data: action.payload,
+				token: action.payload.token,
+				isAuthenticated: true,
+				loading: false,
 			};
-
-		case FETCH_USER_PROFILE_SUCCESS:
+		case LOAD_USER_SUCCESS:
 			return {
 				...state,
-				data: action.payload,
-			};
-		case REGISTER_USER_FAILURE:
-			return {
-				...state,
-				data: null,
+				user: action.payload.data,
+				isAuthenticated: true,
+				loading: false,
 			};
 		case LOGIN_USER_FAILURE:
 			return {
@@ -36,11 +30,15 @@ export default (state, action) => {
 				data: null,
 			};
 
-		case FETCH_USER_PROFILE_FAILURE:
+		case LOGOUT_USER: {
 			return {
-				...state,
-				data: null,
+				token: null,
+				isAuthenticated: false,
+				loading: false,
+				user: null,
 			};
+		}
+
 		default:
 			return state;
 	}

@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import AuthContext from '../../../../../context/auth/AuthContext';
+import AuthContext from '../../../../context/auth/AuthContext';
 
 const SignUp = () => {
 	const [formFields, setFormFields] = useState({

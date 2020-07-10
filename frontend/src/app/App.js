@@ -4,12 +4,18 @@ import { BrowserRouter } from 'react-router-dom';
 import AlertState from '../context/alert/AlertState';
 import AuthState from '../context/auth/AuthState';
 
-import Header from './components/header';
-import Main from './components/main';
-import Footer from './components/footer';
+import Header from './components/layout/header';
+import Main from './components/layout/main';
+import Footer from './components/layout/footer';
 import Alert from './components/alet';
 
-function App() {
+import setAuthToken from '../utils/setAuthToken';
+
+if (localStorage.token) {
+	setAuthToken(localStorage.token);
+}
+
+const App = () => {
 	return (
 		<AlertState>
 			<AuthState>
@@ -19,10 +25,9 @@ function App() {
 					<Footer />
 				</BrowserRouter>
 			</AuthState>
-
 			<Alert />
 		</AlertState>
 	);
-}
+};
 
 export default App;
