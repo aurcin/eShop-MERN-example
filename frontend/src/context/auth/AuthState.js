@@ -1,4 +1,5 @@
 import React, { useReducer, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import {
@@ -30,6 +31,7 @@ const AuthState = ({ children }) => {
 	const [state, dispatch] = useReducer(AuthReducer, initialState);
 
 	const { setAlert } = alertContext;
+	let history = useHistory();
 
 	const loadUser = async () => {
 		if (localStorage.token) {
@@ -65,6 +67,7 @@ const AuthState = ({ children }) => {
 				payload: response.data,
 			});
 			setAlert('User successfully registered', 0);
+			history.push('/');
 			loadUser();
 		} catch (error) {
 			dispatch({
@@ -92,7 +95,9 @@ const AuthState = ({ children }) => {
 				type: LOGIN_USER_SUCCESS,
 				payload: response.data,
 			});
+
 			setAlert('Welcome to our shop', 0);
+			history.push('/');
 			loadUser();
 		} catch (error) {
 			dispatch({

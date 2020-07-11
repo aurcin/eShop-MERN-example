@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -17,7 +18,7 @@ const SignUp = () => {
 	const authContext = useContext(AuthContext);
 
 	const { name, email, password } = formFields;
-	const { register } = authContext;
+	const { register, isAuthenticated } = authContext;
 
 	const onSubmit = (e) => {
 		e.preventDefault();
@@ -30,6 +31,10 @@ const SignUp = () => {
 			[field]: e.target.value,
 		});
 	};
+
+	if (isAuthenticated) {
+		return <Redirect to='/' />;
+	}
 
 	return (
 		<Row>

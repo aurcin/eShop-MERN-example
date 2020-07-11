@@ -28,7 +28,17 @@ const AlertWindow = () => {
 		);
 	});
 
-	return <Container>{AlertList}</Container>;
+	return (
+		<Container
+			style={{
+				position: 'fixed',
+				bottom: 0,
+				right: 0,
+			}}
+		>
+			{AlertList}
+		</Container>
+	);
 };
 
 export default AlertWindow;

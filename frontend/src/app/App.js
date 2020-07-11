@@ -17,16 +17,16 @@ if (localStorage.token) {
 
 const App = () => {
 	return (
-		<AlertState>
-			<AuthState>
-				<BrowserRouter>
+		<BrowserRouter>
+			<AlertState>
+				<AuthState>
 					<Header />
 					<Main />
 					<Footer />
-				</BrowserRouter>
-			</AuthState>
-			<Alert />
-		</AlertState>
+				</AuthState>
+				<Alert />
+			</AlertState>
+		</BrowserRouter>
 	);
 };
 

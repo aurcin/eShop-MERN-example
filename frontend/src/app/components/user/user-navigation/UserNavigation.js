@@ -18,6 +18,7 @@ const UserNavigation = ({ history }) => {
 
 	useEffect(() => {
 		loadUser();
+		// eslint-disable-next-line
 	}, []);
 
 	const renderForUnauthorised = () => {

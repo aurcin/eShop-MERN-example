@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -16,7 +17,7 @@ const SingIn = () => {
 	const authContext = useContext(AuthContext);
 
 	const { email, password } = formFields;
-	const { login } = authContext;
+	const { login, isAuthenticated } = authContext;
 
 	const onSubmit = (e) => {
 		e.preventDefault();
@@ -29,6 +30,10 @@ const SingIn = () => {
 			[field]: e.target.value,
 		});
 	};
+
+	if (isAuthenticated) {
+		return <Redirect to='/' />;
+	}
 
 	return (
 		<Row>

@@ -9,8 +9,8 @@ const Profile = () => {
 
 	return (
 		<div>
-			<p>name </p>
-			<p>email</p>
+			<p>{user.name} </p>
+			<p>{user.email}</p>
 		</div>
 	);
 };
