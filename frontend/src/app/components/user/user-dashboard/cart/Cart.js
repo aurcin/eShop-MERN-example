@@ -1,11 +1,27 @@
 import React from 'react';
 
+import ListGroup from 'react-bootstrap/ListGroup';
+
 const Cart = ({ history }) => {
 	if (history === undefined || history?.length <= 0) {
-		return <p>There is no purchases yet</p>;
+		return (
+			<>
+				<h1>Purchase History</h1>
+				<p>There is no purchases yet</p>
+			</>
+		);
 	}
 
-	return <div>list</div>;
+	const purchases = history.map((item) => (
+		<ListGroup.Item>item</ListGroup.Item>
+	));
+
+	return (
+		<>
+			<h1>Purchase history</h1>
+			<ListGroup>{purchases}</ListGroup>
+		</>
+	);
 };
 
 export default Cart;

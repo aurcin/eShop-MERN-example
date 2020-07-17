@@ -9,6 +9,7 @@ import AuthContext from '../../../../context/auth/AuthContext';
 
 import Profile from './profile';
 import Cart from './cart';
+import Update from './update';
 
 const UserDashboard = () => {
 	const authContext = useContext(AuthContext);
@@ -24,7 +25,7 @@ const UserDashboard = () => {
 							Profile
 						</ListGroup.Item>
 						<ListGroup.Item action href='#cart' variant='dark'>
-							Purchase history
+							Purchase History
 						</ListGroup.Item>
 						<ListGroup.Item action href='#updateprofile' variant='dark'>
 							Update Profile
@@ -39,7 +40,9 @@ const UserDashboard = () => {
 						<Tab.Pane eventKey='#cart'>
 							<Cart history={history} />
 						</Tab.Pane>
-						<Tab.Pane eventKey='#updateprofile'>Update profile tab</Tab.Pane>
+						<Tab.Pane eventKey='#updateprofile'>
+							<Update />
+						</Tab.Pane>
 					</Tab.Content>
 				</Col>
 			</Row>

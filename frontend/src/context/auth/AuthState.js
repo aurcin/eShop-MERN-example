@@ -10,6 +10,10 @@ import {
 	LOAD_USER_FAILURE,
 	LOAD_USER_SUCCESS,
 	LOGOUT_USER,
+	UPDATE_PROFILE_FAILURE,
+	UPDATE_PROFILE_SUCCESS,
+	UPDATE_PASSWORD_SUCCESS,
+	UPDATE_PASSWORD_FAILURE,
 } from '../types';
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
@@ -117,6 +121,66 @@ const AuthState = ({ children }) => {
 		dispatch({ type: LOGOUT_USER });
 	};
 
+	const updateProfile = async (formData) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+
+		try {
+			const response = await axios.put(`${API}/auth/`, formData, config);
+
+			dispatch({
+				type: UPDATE_PROFILE_SUCCESS,
+				payload: response.data,
+			});
+			setAlert('Information updated successfully', 0);
+		} catch (error) {
+			dispatch({
+				type: UPDATE_PROFILE_FAILURE,
+			});
+
+			if (error.response !== undefined) {
+				setAlert(error.response.data.error, 1);
+			} else {
+				setAlert('Failed to connect to server', 1);
+			}
+		}
+	};
+
+	const updatePassword = async (formData) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+
+		try {
+			const response = await axios.put(
+				`${API}/auth/password`,
+				formData,
+				config,
+			);
+
+			dispatch({
+				type: UPDATE_PASSWORD_SUCCESS,
+				payload: response.data,
+			});
+			setAlert('Password updated successfully', 0);
+		} catch (error) {
+			dispatch({
+				type: UPDATE_PASSWORD_FAILURE,
+			});
+
+			if (error.response !== undefined) {
+				setAlert(error.response.data.error, 1);
+			} else {
+				setAlert('Failed to connect to server', 1);
+			}
+		}
+	};
+
 	return (
 		<AuthContext.Provider
 			value={{
@@ -128,6 +192,8 @@ const AuthState = ({ children }) => {
 				login,
 				loadUser,
 				logOut,
+				updateProfile,
+				updatePassword,
 			}}
 		>
 			{children}

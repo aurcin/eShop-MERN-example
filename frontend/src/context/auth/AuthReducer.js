@@ -6,6 +6,10 @@ import {
 	LOAD_USER_SUCCESS,
 	LOGOUT_USER,
 	LOAD_USER_FAILURE,
+	UPDATE_PROFILE_FAILURE,
+	UPDATE_PROFILE_SUCCESS,
+	UPDATE_PASSWORD_SUCCESS,
+	UPDATE_PASSWORD_FAILURE,
 } from '../types';
 
 export default (state, action) => {
@@ -20,6 +24,15 @@ export default (state, action) => {
 				loading: true,
 				user: null,
 			};
+		case UPDATE_PASSWORD_SUCCESS:
+			localStorage.setItem('token', action.payload.token);
+			return {
+				...state,
+				token: action.payload.token,
+				isAuthenticated: true,
+				loading: false,
+			};
+
 		case LOGIN_USER_FAILURE:
 		case REGISTER_USER_FAILURE:
 		case LOGOUT_USER:
@@ -33,6 +46,7 @@ export default (state, action) => {
 			};
 
 		case LOAD_USER_SUCCESS:
+		case UPDATE_PROFILE_SUCCESS:
 			return {
 				...state,
 				user: action.payload.data,
@@ -48,6 +62,12 @@ export default (state, action) => {
 				loading: false,
 			};
 
+		case UPDATE_PROFILE_FAILURE:
+		case UPDATE_PASSWORD_FAILURE:
+			return {
+				...state,
+				loading: false,
+			};
 
 		default:
 			return state;
