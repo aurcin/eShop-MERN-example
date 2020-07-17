@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import SignUp from '../../user/sign-up';
 import SignIn from '../../user/sign-in';
 import Home from './home';
-import Profile from '../../user/profile';
+import UserDashboard from '../../user/user-dashboard';
 import PrivateRoute from '../../routing/PrivateRoute';
 
 const Routes = () => {
@@ -16,7 +16,7 @@ const Routes = () => {
 				<Route path='/' exact component={Home} />
 				<Route path='/signin' exact component={SignIn} />
 				<Route path='/signup' exact component={SignUp} />
-				<PrivateRoute path='/profile' exact component={Profile} />
+				<PrivateRoute path='/profile' exact component={UserDashboard} />
 			</Switch>
 		</Container>
 	);
