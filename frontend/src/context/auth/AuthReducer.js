@@ -22,6 +22,7 @@ export default (state, action) => {
 			};
 		case LOGIN_USER_FAILURE:
 		case REGISTER_USER_FAILURE:
+		case LOGOUT_USER:
 			localStorage.removeItem('token');
 			return {
 				...state,
@@ -47,16 +48,6 @@ export default (state, action) => {
 				loading: false,
 			};
 
-		//----------------------------------
-
-		case LOGOUT_USER: {
-			return {
-				token: null,
-				isAuthenticated: false,
-				loading: false,
-				user: null,
-			};
-		}
 
 		default:
 			return state;
