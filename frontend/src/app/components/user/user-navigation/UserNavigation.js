@@ -14,7 +14,7 @@ const isActive = (history, path) => {
 const UserNavigation = ({ history }) => {
 	const authContext = useContext(AuthContext);
 
-	const { isAuthenticated, loadUser, logOut } = authContext;
+	const { isAuthenticated, loadUser, user, logOut } = authContext;
 
 	useEffect(() => {
 		loadUser();
@@ -56,7 +56,39 @@ const UserNavigation = ({ history }) => {
 		);
 	};
 
-	return isAuthenticated ? renderForUser() : renderForUnauthorised();
+	const renderForAdmin = () => {
+		return (
+			<Nav as='ul'>
+				<Nav.Item as='li'>
+					<LinkContainer to='/profile'>
+						<Nav.Link active={isActive(history, '/profile')}>Profile</Nav.Link>
+					</LinkContainer>
+				</Nav.Item>
+				<Nav.Item as='li'>
+					<LinkContainer to='/profile/admin'>
+						<Nav.Link active={isActive(history, '/profile/admin')}>
+							Admin Panel
+						</Nav.Link>
+					</LinkContainer>
+				</Nav.Item>
+				<Nav.Item as='li'>
+					<Button variant='dark' type='button' onClick={() => logOut()}>
+						Logout
+					</Button>
+				</Nav.Item>
+			</Nav>
+		);
+	};
+
+	if (isAuthenticated) {
+		if (user?.role === 'admin') {
+			return renderForAdmin();
+		} else {
+			return renderForUser();
+		}
+	} else {
+		return renderForUnauthorised();
+	}
 };
 
 export default withRouter(UserNavigation);

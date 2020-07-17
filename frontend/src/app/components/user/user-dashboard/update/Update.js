@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -26,7 +25,7 @@ const Update = () => {
 		newPassword,
 		newPassword2,
 	} = formFields;
-	const { updateProfile, updatePassword, isAuthenticated, user } = authContext;
+	const { updateProfile, updatePassword, user } = authContext;
 	const { setAlert } = alertContext;
 
 	useEffect(() => {
@@ -62,10 +61,6 @@ const Update = () => {
 			[field]: e.target.value,
 		});
 	};
-
-	if (!isAuthenticated) {
-		return <Redirect to='/signin' />;
-	}
 
 	return (
 		<>

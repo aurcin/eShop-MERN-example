@@ -7,7 +7,10 @@ import SignUp from '../../user/sign-up';
 import SignIn from '../../user/sign-in';
 import Home from './home';
 import UserDashboard from '../../user/user-dashboard';
+import AdminPanel from '../../user/admin';
+
 import PrivateRoute from '../../routing/PrivateRoute';
+import AdminRoute from '../../routing/AdminRoute';
 
 const Routes = () => {
 	return (
@@ -17,6 +20,7 @@ const Routes = () => {
 				<Route path='/signin' exact component={SignIn} />
 				<Route path='/signup' exact component={SignUp} />
 				<PrivateRoute path='/profile' exact component={UserDashboard} />
+				<AdminRoute path='/profile/admin' exact component={AdminPanel} />
 			</Switch>
 		</Container>
 	);
