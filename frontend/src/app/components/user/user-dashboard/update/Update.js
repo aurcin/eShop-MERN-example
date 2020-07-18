@@ -30,6 +30,7 @@ const Update = () => {
 
 	useEffect(() => {
 		setFormFields({
+			...formFields,
 			name: user.name,
 			email: user.email,
 		});
@@ -49,6 +50,7 @@ const Update = () => {
 			setAlert('New Password must match new password repeat', 1);
 		}
 		setFormFields({
+			...formFields,
 			newPassword: '',
 			newPassword2: '',
 			currentPassword: '',
