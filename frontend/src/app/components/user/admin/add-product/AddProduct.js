@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import AlertContext from '../../../../../context/alert/AlertContext';
+import ProductContext from '../../../../../context/product/ProductContext';
 
 const AddProduct = () => {
 	const [formFields, setFormFields] = useState({
@@ -14,8 +14,10 @@ const AddProduct = () => {
 		quantity: '',
 		shipping: false,
 	});
+	const productContext = useContext(ProductContext);
 
 	const { name, description, price, quantity, shipping } = formFields;
+	const { createProduct } = productContext;
 
 	const onChange = (field) => (e) => {
 		setFormFields({
@@ -40,7 +42,7 @@ const AddProduct = () => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		console.log('sending ', formFields);
+		createProduct(formFields);
 		setFormFields({
 			...formFields,
 			name: '',

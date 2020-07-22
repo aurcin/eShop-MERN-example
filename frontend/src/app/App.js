@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import AlertState from '../context/alert/AlertState';
 import AuthState from '../context/auth/AuthState';
+import ProductState from '../context/product/ProductState';
 
 import Header from './components/layout/header';
 import Main from './components/layout/main';
@@ -20,9 +21,11 @@ const App = () => {
 		<BrowserRouter>
 			<AlertState>
 				<AuthState>
-					<Header />
-					<Main />
-					<Footer />
+					<ProductState>
+						<Header />
+						<Main />
+						<Footer />
+					</ProductState>
 				</AuthState>
 				<Alert />
 			</AlertState>
