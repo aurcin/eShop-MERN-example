@@ -13,10 +13,11 @@ const AddProduct = () => {
 		price: '',
 		quantity: '',
 		shipping: false,
+		photo: null,
 	});
 	const productContext = useContext(ProductContext);
 
-	const { name, description, price, quantity, shipping } = formFields;
+	const { name, description, price, quantity, shipping, photo } = formFields;
 	const { createProduct } = productContext;
 
 	const onChange = (field) => (e) => {
@@ -40,15 +41,29 @@ const AddProduct = () => {
 		});
 	};
 
+	const onPhotoSelect = (e) => {
+		let files = e.target.files;
+
+		if (files && files.length > 0) {
+			setFormFields({
+				...formFields,
+				photo: files[0],
+			});
+		}
+	};
+
 	const onSubmit = (e) => {
 		e.preventDefault();
-		createProduct(formFields);
+		const data = new FormData();
+		data.append('file', photo);
+		createProduct(formFields, data);
 		setFormFields({
 			...formFields,
 			name: '',
 			description: '',
 			price: '',
 			quantity: '',
+			photo: null,
 		});
 	};
 
@@ -119,6 +134,14 @@ const AddProduct = () => {
 						label='Shiping included?'
 						defaultChecked={shipping}
 						onChange={onToggle('shipping')}
+					/>
+				</Form.Group>
+
+				<Form.Group>
+					<Form.File
+						id='photo'
+						label='Product photo'
+						onChange={onPhotoSelect}
 					/>
 				</Form.Group>
 

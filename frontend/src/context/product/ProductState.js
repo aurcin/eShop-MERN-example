@@ -6,6 +6,8 @@ import {
 	CREATE_PRODUCT_FAILURE,
 	LOAQD_NEWEST_PRODUCT_SUCCESS,
 	LOAQD_NEWEST_PRODUCT_FAILURE,
+	UPLOAD_PHOTO_SUCCESS,
+	UPLOAD_PHOTO_FAILURE,
 } from '../types';
 
 import ProductContext from './ProductContext';
@@ -27,7 +29,7 @@ const ProductState = ({ children }) => {
 
 	const loadNewest = async () => {
 		try {
-			const res = await axios.get(`${API}/products?sort=-createdAt`);
+			const res = await axios.get(`${API}/products?sort=-createdAt&limit=6`);
 			dispatch({
 				type: LOAQD_NEWEST_PRODUCT_SUCCESS,
 				payload: res.data,
@@ -38,15 +40,25 @@ const ProductState = ({ children }) => {
 		}
 	};
 
-	const createProduct = async (formData) => {
+	const createProduct = async (formData, photo) => {
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		};
 
+		const hasPhoto = formData.photo;
+		formData.photo = undefined;
+
 		try {
 			const response = await axios.post(`${API}/products/`, formData, config);
+
+			if (hasPhoto !== null) {
+				await axios.put(
+					`${API}/products/${response.data.data._id}/photo`,
+					photo,
+				);
+			}
 
 			dispatch({
 				type: CREATE_PRODUCT_SUCCESS,
@@ -67,12 +79,28 @@ const ProductState = ({ children }) => {
 		}
 	};
 
+	const uploadPhoto = async (photo) => {
+		try {
+			await axios.put(`${API}/products/5f18e24cf00f9a1d68bc8d9b/photo`, photo);
+			dispatch({
+				type: UPLOAD_PHOTO_SUCCESS,
+			});
+			setAlert('Photo uploaded!');
+		} catch (error) {
+			dispatch({
+				type: UPLOAD_PHOTO_FAILURE,
+			});
+			setAlert('Failed to upload photo');
+		}
+	};
+
 	return (
 		<ProductContext.Provider
 			value={{
 				newest: state.newest,
 				createProduct,
 				loadNewest,
+				uploadPhoto,
 			}}
 		>
 			{children}
