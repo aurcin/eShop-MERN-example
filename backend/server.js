@@ -30,6 +30,7 @@ app.use(fileUpload());
 app.use(cors());
 
 // set static folder
+console.log(path.join(__dirname, 'public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
