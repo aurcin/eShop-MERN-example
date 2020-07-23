@@ -3,6 +3,7 @@ import React from 'react';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
 import Newest from '../../../products/newest';
+import Popular from '../../../products/popular';
 
 const Home = () => {
 	return (
@@ -15,6 +16,7 @@ const Home = () => {
 				</p>
 			</Jumbotron>
 			<Newest />
+			<Popular />
 		</>
 	);
 };

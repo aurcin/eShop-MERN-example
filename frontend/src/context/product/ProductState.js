@@ -4,10 +4,12 @@ import axios from 'axios';
 import {
 	CREATE_PRODUCT_SUCCESS,
 	CREATE_PRODUCT_FAILURE,
-	LOAQD_NEWEST_PRODUCT_SUCCESS,
-	LOAQD_NEWEST_PRODUCT_FAILURE,
+	LOAD_NEWEST_PRODUCT_SUCCESS,
+	LOAD_NEWEST_PRODUCT_FAILURE,
 	UPLOAD_PHOTO_SUCCESS,
 	UPLOAD_PHOTO_FAILURE,
+	LOAD_POPULAR_PRODUCT_FAILURE,
+	LOAD_POPULAR_PRODUCT_SUCCESS,
 } from '../types';
 
 import ProductContext from './ProductContext';
@@ -19,6 +21,7 @@ import { API } from '../../config/config';
 const ProductState = ({ children }) => {
 	const initialState = {
 		newest: [],
+		popular: [],
 	};
 
 	const alertContext = useContext(AlertContext);
@@ -27,16 +30,31 @@ const ProductState = ({ children }) => {
 
 	const { setAlert } = alertContext;
 
-	const loadNewest = async () => {
+	const loadNewest = async (count = 1) => {
 		try {
-			const res = await axios.get(`${API}/products?sort=-createdAt&limit=6`);
+			const res = await axios.get(
+				`${API}/products?sort=-createdAt&limit=${count}`,
+			);
 			dispatch({
-				type: LOAQD_NEWEST_PRODUCT_SUCCESS,
+				type: LOAD_NEWEST_PRODUCT_SUCCESS,
 				payload: res.data,
 			});
 		} catch (error) {
-			dispatch({ type: LOAQD_NEWEST_PRODUCT_FAILURE });
+			dispatch({ type: LOAD_NEWEST_PRODUCT_FAILURE });
 			setAlert('Failed to load newest products', 1);
+		}
+	};
+
+	const loadPopular = async (count = 1) => {
+		try {
+			const res = await axios.get(`${API}/products?sort=-sold&limit=${count}`);
+			dispatch({
+				type: LOAD_POPULAR_PRODUCT_SUCCESS,
+				payload: res.data,
+			});
+		} catch (error) {
+			dispatch({ type: LOAD_POPULAR_PRODUCT_FAILURE });
+			setAlert('Failed to load popular products', 1);
 		}
 	};
 
@@ -98,8 +116,10 @@ const ProductState = ({ children }) => {
 		<ProductContext.Provider
 			value={{
 				newest: state.newest,
+				popular: state.popular,
 				createProduct,
 				loadNewest,
+				loadPopular,
 				uploadPhoto,
 			}}
 		>
