@@ -52,12 +52,10 @@ const ProductState = ({ children }) => {
 	const loadProducts = async (params = 'sort=-createdAt') => {
 		try {
 			const res = await axios.get(`${API}/products?${params}`);
-			console.log(res.data);
 			dispatch({
 				type: FETCH_PRODUCTS_SUCCESS,
 				payload: res.data,
 			});
-			setAlert('Products loaded', 0);
 		} catch (error) {
 			dispatch({ type: FETCH_PRODUCTS_FAILURE });
 			setAlert('Failed to load products', 1);

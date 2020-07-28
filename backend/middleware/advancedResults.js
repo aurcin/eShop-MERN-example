@@ -6,8 +6,12 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 		const reqQuery = { ...req.query };
 
 		// remove unvanted fields from query
-		const removeFields = ['select', 'sort', 'page', 'limit'];
+		const removeFields = ['select', 'sort', 'page', 'limit', 'keyword'];
 		removeFields.forEach((param) => delete reqQuery[param]);
+
+		if (req.query.keyword) {
+			reqQuery.name = { $regex: req.query.keyword, $options: 'i' };
+		}
 
 		let queryStr = JSON.stringify(reqQuery);
 		// adding $ to: lt, lte, gt, gte, in.
@@ -36,7 +40,6 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 		const limit = parseInt(req.query.limit, 10) || 100;
 		const startIndex = (page - 1) * limit;
 		const endIndex = page * limit;
-		const total = await model.countDocuments();
 
 		query.skip(startIndex).limit(limit);
 
@@ -49,14 +52,14 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 
 		// pagination next previous
 		const pagination = {};
-		if (endIndex < total) {
+		if (results.length >= limit) {
 			pagination.next = {
 				page: page + 1,
 				limit,
 			};
 		}
 
-		if (startIndex > 0) {
+		if (page > 1) {
 			pagination.prev = {
 				page: page - 1,
 				limit,
