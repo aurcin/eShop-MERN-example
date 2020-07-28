@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 import AddProduct from './add-product';
+import ProductList from './list-product';
 
 const AdminPanel = () => {
 	return (
@@ -27,7 +28,7 @@ const AdminPanel = () => {
 							<AddProduct />
 						</Tab.Pane>
 						<Tab.Pane eventKey='#list_product'>
-							All product list goes here
+							<ProductList />
 						</Tab.Pane>
 					</Tab.Content>
 				</Col>

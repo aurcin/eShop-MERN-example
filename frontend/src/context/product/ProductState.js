@@ -10,6 +10,8 @@ import {
 	UPLOAD_PHOTO_FAILURE,
 	LOAD_POPULAR_PRODUCT_FAILURE,
 	LOAD_POPULAR_PRODUCT_SUCCESS,
+	FETCH_PRODUCTS_SUCCESS,
+	FETCH_PRODUCTS_FAILURE,
 } from '../types';
 
 import ProductContext from './ProductContext';
@@ -22,6 +24,8 @@ const ProductState = ({ children }) => {
 	const initialState = {
 		newest: [],
 		popular: [],
+		products: [],
+		paginator: {},
 	};
 
 	const alertContext = useContext(AlertContext);
@@ -42,6 +46,21 @@ const ProductState = ({ children }) => {
 		} catch (error) {
 			dispatch({ type: LOAD_NEWEST_PRODUCT_FAILURE });
 			setAlert('Failed to load newest products', 1);
+		}
+	};
+
+	const loadProducts = async (params = 'sort=-createdAt') => {
+		try {
+			const res = await axios.get(`${API}/products?${params}`);
+			console.log(res.data);
+			dispatch({
+				type: FETCH_PRODUCTS_SUCCESS,
+				payload: res.data,
+			});
+			setAlert('Products loaded', 0);
+		} catch (error) {
+			dispatch({ type: FETCH_PRODUCTS_FAILURE });
+			setAlert('Failed to load products', 1);
 		}
 	};
 
@@ -117,10 +136,13 @@ const ProductState = ({ children }) => {
 			value={{
 				newest: state.newest,
 				popular: state.popular,
+				products: state.products,
+				paginator: state.paginator,
 				createProduct,
 				loadNewest,
 				loadPopular,
 				uploadPhoto,
+				loadProducts,
 			}}
 		>
 			{children}
